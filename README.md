@@ -45,22 +45,35 @@ import matplotlib.pyplot as plt
 ek.set_app_id('Your App ID here')
 ```
 
-Next we need to formulate our API call. In this case, I will be requesting data for all Dow Jones Industrial Average index constituents and I will be requesting a mixture of both Reference, Starmine Analytics and Price performance data for 8 quarters - I have made it more generic here - but essentially this is one line of code! One thing to note here is that the 3 Month Total Return is forward looking so its great for this type of analysis ie it does not need to be offset/shifted. And as you will see the API returns the data in a pandas dataframe.
+Next we need to formulate our API call. In this case, I will be requesting data for all CAC-40 index constituents and I will be requesting a mixture of both Reference, Starmine Analytics and Price performance data for 8 quarters - I have made it more generic here - but essentially this is one line of code! And as you will see the API returns the data in a pandas dataframe.
 
 
 ```python
-RICS = ['0#.dji']
+RICS = ['0#.FCHI']
 fields =['TR.TRBCIndustryGroup','TR.CombinedAlphaCountryRank(SDate=0,EDate=-7,Frq=FQ)','TR.CombinedAlphaCountryRank(SDate=0,EDate=-7,Frq=FQ).Date',
-         'TR.TotalReturn3Mo(SDate=0,EDate=-7,Frq=FQ)']
+         'TR.TotalReturn3Mo(SDate=0,EDate=-7,Frq=FQ)','TR.TotalReturn3Mo(SDate=0,EDate=-7,Frq=FQ).calcdate']
 
 ids,err=ek.get_data(RICS,fields=fields)
-ids.head(10)
+ids.head(20)
 ```
 
 
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -70,88 +83,189 @@ ids.head(10)
       <th>Combined Alpha Model Country Rank</th>
       <th>Date</th>
       <th>3 Month Total Return</th>
+      <th>Calc Date</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>57.0</td>
-      <td>2017-09-30T00:00:00Z</td>
-      <td>1.40588724845</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>13.0</td>
+      <td>2017-12-31T00:00:00Z</td>
+      <td>2.295706</td>
+      <td>2017-12-31</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>74.0</td>
-      <td>2017-06-30T00:00:00Z</td>
-      <td>9.49681533207</td>
+      <td>5.0</td>
+      <td>2017-09-30T00:00:00Z</td>
+      <td>2.411987</td>
+      <td>2017-09-30</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>65.0</td>
-      <td>2017-03-31T00:00:00Z</td>
-      <td>7.83853634636</td>
+      <td>36.0</td>
+      <td>2017-06-30T00:00:00Z</td>
+      <td>7.890774</td>
+      <td>2017-06-30</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>65.0</td>
-      <td>2016-12-31T00:00:00Z</td>
-      <td>1.98169008175</td>
+      <td>14.0</td>
+      <td>2017-03-31T00:00:00Z</td>
+      <td>10.217330</td>
+      <td>2017-03-31</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>58.0</td>
-      <td>2016-09-30T00:00:00Z</td>
-      <td>1.2548750062</td>
+      <td>17.0</td>
+      <td>2016-12-31T00:00:00Z</td>
+      <td>0.339847</td>
+      <td>2016-12-31</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>54.0</td>
-      <td>2016-06-30T00:00:00Z</td>
-      <td>5.71827717603</td>
+      <td>5.0</td>
+      <td>2016-09-30T00:00:00Z</td>
+      <td>1.787259</td>
+      <td>2016-09-30</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>46.0</td>
-      <td>2016-03-31T00:00:00Z</td>
-      <td>11.4201046525</td>
+      <td>13.0</td>
+      <td>2016-06-30T00:00:00Z</td>
+      <td>-5.187512</td>
+      <td>2016-06-30</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>37.0</td>
-      <td>2015-12-31T00:00:00Z</td>
-      <td>6.94860740857</td>
+      <td>9.0</td>
+      <td>2016-03-31T00:00:00Z</td>
+      <td>-6.911636</td>
+      <td>2016-03-31</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>AXP.N</td>
-      <td>Banking Services</td>
-      <td>66.0</td>
-      <td>2017-09-30T00:00:00Z</td>
-      <td>7.78845748316</td>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>44.0</td>
+      <td>2017-12-31T00:00:00Z</td>
+      <td>2.396977</td>
+      <td>2017-12-31</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>AXP.N</td>
+      <td>AIRP.PA</td>
       <td></td>
-      <td>77.0</td>
+      <td>22.0</td>
+      <td>2017-09-30T00:00:00Z</td>
+      <td>4.297597</td>
+      <td>2017-09-30</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>AIRP.PA</td>
+      <td></td>
+      <td>20.0</td>
       <td>2017-06-30T00:00:00Z</td>
-      <td>6.78786348296</td>
+      <td>3.664822</td>
+      <td>2017-06-30</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>AIRP.PA</td>
+      <td></td>
+      <td>17.0</td>
+      <td>2017-03-31T00:00:00Z</td>
+      <td>1.372456</td>
+      <td>2017-03-31</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>AIRP.PA</td>
+      <td></td>
+      <td>24.0</td>
+      <td>2016-12-31T00:00:00Z</td>
+      <td>10.686223</td>
+      <td>2016-12-31</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>AIRP.PA</td>
+      <td></td>
+      <td>10.0</td>
+      <td>2016-09-30T00:00:00Z</td>
+      <td>4.185135</td>
+      <td>2016-09-30</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>AIRP.PA</td>
+      <td></td>
+      <td>38.0</td>
+      <td>2016-06-30T00:00:00Z</td>
+      <td>-4.252091</td>
+      <td>2016-06-30</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>AIRP.PA</td>
+      <td></td>
+      <td>26.0</td>
+      <td>2016-03-31T00:00:00Z</td>
+      <td>-4.592378</td>
+      <td>2016-03-31</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>AIR.PA</td>
+      <td>Aerospace &amp; Defense</td>
+      <td>62.0</td>
+      <td>2017-12-31T00:00:00Z</td>
+      <td>3.220992</td>
+      <td>2017-12-31</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>AIR.PA</td>
+      <td></td>
+      <td>25.0</td>
+      <td>2017-09-30T00:00:00Z</td>
+      <td>11.680556</td>
+      <td>2017-09-30</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>AIR.PA</td>
+      <td></td>
+      <td>59.0</td>
+      <td>2017-06-30T00:00:00Z</td>
+      <td>2.453877</td>
+      <td>2017-06-30</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>AIR.PA</td>
+      <td></td>
+      <td>52.0</td>
+      <td>2017-03-31T00:00:00Z</td>
+      <td>13.510503</td>
+      <td>2017-03-31</td>
     </tr>
   </tbody>
 </table>
@@ -163,36 +277,50 @@ Now that we have our data in a dataframe we may need to do some wrangling to get
 
 
 ```python
-ids.dtypes
+ids.info()
 ```
 
+    <class 'pandas.core.frame.DataFrame'>
+    RangeIndex: 320 entries, 0 to 319
+    Data columns (total 6 columns):
+    Instrument                           320 non-null object
+    TRBC Industry Group Name             320 non-null object
+    Combined Alpha Model Country Rank    316 non-null float64
+    Date                                 320 non-null object
+    3 Month Total Return                 320 non-null float64
+    Calc Date                            320 non-null object
+    dtypes: float64(2), object(4)
+    memory usage: 10.0+ KB
+    
 
-
-
-    Instrument                            object
-    TRBC Industry Group Name              object
-    Combined Alpha Model Country Rank    float64
-    Date                                  object
-    3 Month Total Return                  object
-    dtype: object
-
-
-
-First we want to turn the Date object (a string) into a datetime type, then we want to set that datetime field as the index for the frame. Secondly, we want to make sure any numeric fields are numeric and any text fields are strings:
+First we want to cast the Date object (a string) as a datetime type, then we want to set that datetime field as the index for the frame. Secondly, we want to make sure any numeric fields are numeric and any text fields are strings:
 
 
 ```python
 ids['Date']=pd.to_datetime(ids['Date'])
 ads=ids.set_index('Date')[['Instrument','TRBC Industry Group Name','Combined Alpha Model Country Rank','3 Month Total Return']]
-ads['3 Month Total Return'] = ads['3 Month Total Return'].astype(str).astype(np.float64)
+ads['3 Month Total Return'] = pd.to_numeric(ads['3 Month Total Return'], errors='coerse')
 ads['TRBC Industry Group Name'] = ads['TRBC Industry Group Name'].astype(str)
-ads.head(10)
+ads.head(10) 
 ```
 
 
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -212,74 +340,171 @@ ads.head(10)
   </thead>
   <tbody>
     <tr>
+      <th>2017-12-31</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>13.0</td>
+      <td>2.295706</td>
+    </tr>
+    <tr>
       <th>2017-09-30</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>57.0</td>
-      <td>1.405887</td>
+      <td>ACCP.PA</td>
+      <td></td>
+      <td>5.0</td>
+      <td>2.411987</td>
     </tr>
     <tr>
       <th>2017-06-30</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>74.0</td>
-      <td>9.496815</td>
+      <td>36.0</td>
+      <td>7.890774</td>
     </tr>
     <tr>
       <th>2017-03-31</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>65.0</td>
-      <td>7.838536</td>
+      <td>14.0</td>
+      <td>10.217330</td>
     </tr>
     <tr>
       <th>2016-12-31</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>65.0</td>
-      <td>1.981690</td>
+      <td>17.0</td>
+      <td>0.339847</td>
     </tr>
     <tr>
       <th>2016-09-30</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>58.0</td>
-      <td>1.254875</td>
+      <td>5.0</td>
+      <td>1.787259</td>
     </tr>
     <tr>
       <th>2016-06-30</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>54.0</td>
-      <td>5.718277</td>
+      <td>13.0</td>
+      <td>-5.187512</td>
     </tr>
     <tr>
       <th>2016-03-31</th>
-      <td>MMM.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>46.0</td>
-      <td>11.420105</td>
+      <td>9.0</td>
+      <td>-6.911636</td>
     </tr>
     <tr>
-      <th>2015-12-31</th>
-      <td>MMM.N</td>
-      <td></td>
-      <td>37.0</td>
-      <td>6.948607</td>
+      <th>2017-12-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>44.0</td>
+      <td>2.396977</td>
     </tr>
     <tr>
       <th>2017-09-30</th>
-      <td>AXP.N</td>
-      <td>Banking Services</td>
-      <td>66.0</td>
-      <td>7.788457</td>
+      <td>AIRP.PA</td>
+      <td></td>
+      <td>22.0</td>
+      <td>4.297597</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+ads.dtypes
+```
+
+
+
+
+    Instrument                            object
+    TRBC Industry Group Name              object
+    Combined Alpha Model Country Rank    float64
+    3 Month Total Return                 float64
+    dtype: object
+
+
+
+
+```python
+ads.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Instrument</th>
+      <th>TRBC Industry Group Name</th>
+      <th>Combined Alpha Model Country Rank</th>
+      <th>3 Month Total Return</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-12-31</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>13.0</td>
+      <td>2.295706</td>
+    </tr>
+    <tr>
+      <th>2017-09-30</th>
+      <td>ACCP.PA</td>
+      <td></td>
+      <td>5.0</td>
+      <td>2.411987</td>
     </tr>
     <tr>
       <th>2017-06-30</th>
-      <td>AXP.N</td>
+      <td>ACCP.PA</td>
       <td></td>
-      <td>77.0</td>
-      <td>6.787863</td>
+      <td>36.0</td>
+      <td>7.890774</td>
+    </tr>
+    <tr>
+      <th>2017-03-31</th>
+      <td>ACCP.PA</td>
+      <td></td>
+      <td>14.0</td>
+      <td>10.217330</td>
+    </tr>
+    <tr>
+      <th>2016-12-31</th>
+      <td>ACCP.PA</td>
+      <td></td>
+      <td>17.0</td>
+      <td>0.339847</td>
     </tr>
   </tbody>
 </table>
@@ -297,13 +522,352 @@ ads1 = ads.replace('', np.nan, regex=True)
 
 ```python
 ads1['TRBC Industry Group Name'].fillna(method='ffill',limit=7, inplace=True)
-ads1.head(10)
+ads1.head(15)
 ```
 
 
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Instrument</th>
+      <th>TRBC Industry Group Name</th>
+      <th>Combined Alpha Model Country Rank</th>
+      <th>3 Month Total Return</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-12-31</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>13.0</td>
+      <td>2.295706</td>
+    </tr>
+    <tr>
+      <th>2017-09-30</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>5.0</td>
+      <td>2.411987</td>
+    </tr>
+    <tr>
+      <th>2017-06-30</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>36.0</td>
+      <td>7.890774</td>
+    </tr>
+    <tr>
+      <th>2017-03-31</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>14.0</td>
+      <td>10.217330</td>
+    </tr>
+    <tr>
+      <th>2016-12-31</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>17.0</td>
+      <td>0.339847</td>
+    </tr>
+    <tr>
+      <th>2016-09-30</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>5.0</td>
+      <td>1.787259</td>
+    </tr>
+    <tr>
+      <th>2016-06-30</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>13.0</td>
+      <td>-5.187512</td>
+    </tr>
+    <tr>
+      <th>2016-03-31</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>9.0</td>
+      <td>-6.911636</td>
+    </tr>
+    <tr>
+      <th>2017-12-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>44.0</td>
+      <td>2.396977</td>
+    </tr>
+    <tr>
+      <th>2017-09-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>22.0</td>
+      <td>4.297597</td>
+    </tr>
+    <tr>
+      <th>2017-06-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>20.0</td>
+      <td>3.664822</td>
+    </tr>
+    <tr>
+      <th>2017-03-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>17.0</td>
+      <td>1.372456</td>
+    </tr>
+    <tr>
+      <th>2016-12-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>24.0</td>
+      <td>10.686223</td>
+    </tr>
+    <tr>
+      <th>2016-09-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>10.0</td>
+      <td>4.185135</td>
+    </tr>
+    <tr>
+      <th>2016-06-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>38.0</td>
+      <td>-4.252091</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+We now need to shift the 3 Month Total Return column down by 1 so we can map CAM ranks to forward looking performance. Thankfully in pandas this is trivial and note the Groupby instrument clause.
+
+
+```python
+ads1['3 Month Total Return'] = ads1.groupby('Instrument')['3 Month Total Return'].shift()
+```
+
+
+```python
+ads1.head(15)
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Instrument</th>
+      <th>TRBC Industry Group Name</th>
+      <th>Combined Alpha Model Country Rank</th>
+      <th>3 Month Total Return</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-12-31</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>13.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2017-09-30</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>5.0</td>
+      <td>2.295706</td>
+    </tr>
+    <tr>
+      <th>2017-06-30</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>36.0</td>
+      <td>2.411987</td>
+    </tr>
+    <tr>
+      <th>2017-03-31</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>14.0</td>
+      <td>7.890774</td>
+    </tr>
+    <tr>
+      <th>2016-12-31</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>17.0</td>
+      <td>10.217330</td>
+    </tr>
+    <tr>
+      <th>2016-09-30</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>5.0</td>
+      <td>0.339847</td>
+    </tr>
+    <tr>
+      <th>2016-06-30</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>13.0</td>
+      <td>1.787259</td>
+    </tr>
+    <tr>
+      <th>2016-03-31</th>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>9.0</td>
+      <td>-5.187512</td>
+    </tr>
+    <tr>
+      <th>2017-12-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>44.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2017-09-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>22.0</td>
+      <td>2.396977</td>
+    </tr>
+    <tr>
+      <th>2017-06-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>20.0</td>
+      <td>4.297597</td>
+    </tr>
+    <tr>
+      <th>2017-03-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>17.0</td>
+      <td>3.664822</td>
+    </tr>
+    <tr>
+      <th>2016-12-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>24.0</td>
+      <td>1.372456</td>
+    </tr>
+    <tr>
+      <th>2016-09-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>10.0</td>
+      <td>10.686223</td>
+    </tr>
+    <tr>
+      <th>2016-06-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>38.0</td>
+      <td>4.185135</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+ads1.info()
+```
+
+    <class 'pandas.core.frame.DataFrame'>
+    DatetimeIndex: 320 entries, 2017-12-31 to 2016-03-31
+    Data columns (total 4 columns):
+    Instrument                           320 non-null object
+    TRBC Industry Group Name             320 non-null object
+    Combined Alpha Model Country Rank    316 non-null float64
+    3 Month Total Return                 280 non-null float64
+    dtypes: float64(2), object(2)
+    memory usage: 10.0+ KB
+    
+
+
+```python
+ads1.dropna(axis=0, how='any', inplace=True)
+ads1.head(20)
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -324,73 +888,143 @@ ads1.head(10)
   <tbody>
     <tr>
       <th>2017-09-30</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>57.0</td>
-      <td>1.405887</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>5.0</td>
+      <td>2.295706</td>
     </tr>
     <tr>
       <th>2017-06-30</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>74.0</td>
-      <td>9.496815</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>36.0</td>
+      <td>2.411987</td>
     </tr>
     <tr>
       <th>2017-03-31</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>65.0</td>
-      <td>7.838536</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>14.0</td>
+      <td>7.890774</td>
     </tr>
     <tr>
       <th>2016-12-31</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>65.0</td>
-      <td>1.981690</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>17.0</td>
+      <td>10.217330</td>
     </tr>
     <tr>
       <th>2016-09-30</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>58.0</td>
-      <td>1.254875</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>5.0</td>
+      <td>0.339847</td>
     </tr>
     <tr>
       <th>2016-06-30</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>54.0</td>
-      <td>5.718277</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>13.0</td>
+      <td>1.787259</td>
     </tr>
     <tr>
       <th>2016-03-31</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>46.0</td>
-      <td>11.420105</td>
-    </tr>
-    <tr>
-      <th>2015-12-31</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>37.0</td>
-      <td>6.948607</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>9.0</td>
+      <td>-5.187512</td>
     </tr>
     <tr>
       <th>2017-09-30</th>
-      <td>AXP.N</td>
-      <td>Banking Services</td>
-      <td>66.0</td>
-      <td>7.788457</td>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>22.0</td>
+      <td>2.396977</td>
     </tr>
     <tr>
       <th>2017-06-30</th>
-      <td>AXP.N</td>
-      <td>Banking Services</td>
-      <td>77.0</td>
-      <td>6.787863</td>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>20.0</td>
+      <td>4.297597</td>
+    </tr>
+    <tr>
+      <th>2017-03-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>17.0</td>
+      <td>3.664822</td>
+    </tr>
+    <tr>
+      <th>2016-12-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>24.0</td>
+      <td>1.372456</td>
+    </tr>
+    <tr>
+      <th>2016-09-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>10.0</td>
+      <td>10.686223</td>
+    </tr>
+    <tr>
+      <th>2016-06-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>38.0</td>
+      <td>4.185135</td>
+    </tr>
+    <tr>
+      <th>2016-03-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>26.0</td>
+      <td>-4.252091</td>
+    </tr>
+    <tr>
+      <th>2017-09-30</th>
+      <td>AIR.PA</td>
+      <td>Aerospace &amp; Defense</td>
+      <td>25.0</td>
+      <td>3.220992</td>
+    </tr>
+    <tr>
+      <th>2017-06-30</th>
+      <td>AIR.PA</td>
+      <td>Aerospace &amp; Defense</td>
+      <td>59.0</td>
+      <td>11.680556</td>
+    </tr>
+    <tr>
+      <th>2017-03-31</th>
+      <td>AIR.PA</td>
+      <td>Aerospace &amp; Defense</td>
+      <td>52.0</td>
+      <td>2.453877</td>
+    </tr>
+    <tr>
+      <th>2016-12-31</th>
+      <td>AIR.PA</td>
+      <td>Aerospace &amp; Defense</td>
+      <td>14.0</td>
+      <td>13.510503</td>
+    </tr>
+    <tr>
+      <th>2016-09-30</th>
+      <td>AIR.PA</td>
+      <td>Aerospace &amp; Defense</td>
+      <td>13.0</td>
+      <td>16.716196</td>
+    </tr>
+    <tr>
+      <th>2016-06-30</th>
+      <td>AIR.PA</td>
+      <td>Aerospace &amp; Defense</td>
+      <td>22.0</td>
+      <td>4.078871</td>
     </tr>
   </tbody>
 </table>
@@ -400,7 +1034,7 @@ ads1.head(10)
 
 So now our Dataframe is seemingly in good shape - what are we going to do next? We can start with the question do higher CAM score leads to better performance? Or put more generically, are CAM scores RELATED to performance? Remember these CAM scores are dynamic and change overtime depending on changes in their underlying components AND relative to other companies in the universe (in this case companies in the same country). 
 
-So lets just see what this looks like in terms of a scatterplot for one sector of the Dow. Here we are just filtering the frame using a text filter and aggregating using a groupby statement. In this case we have 2 companies.
+So lets just see what this looks like in terms of a scatterplot for one sector of the CAC-40. Here we are just filtering the frame using a text filter and aggregating using a groupby statement. In this case we have 2 companies.
 
 
 ```python
@@ -410,15 +1044,7 @@ adsl = adsl.groupby('Instrument')
 ax = adsl.plot(x='Combined Alpha Model Country Rank', y='3 Month Total Return', kind='scatter')
 ```
 
-
-![png](output_14_0.png)
-
-
-
-![png](output_14_1.png)
-
-
-So lets be clear about what we are looking at. Each dot represents a pair of observations for CAM rank and 3M total return for a quarter - we should have 8 quarters of observations for each instrument. So we could implement a simple linear regression and that would have different parameters such as intercept, slope. 
+So lets be clear about what we are looking at. Each dot represents a pair of observations for CAM rank and 3M total return for a quarter - we should have 7 quarters of observations for each instrument. So we could implement a simple linear regression and that would have different parameters such as intercept, slope. 
 
 As I am in exploratory mode - I just am interested in the slope of the best fit linear line (of the form y = ax + b), where a is the slope coefficient. This should offer me some indication of how 3 Month total returns change for an increase in CAM rank. So our slope coefficient can tell us for example whether our variables are positively related (positive a) or negatively related (negative a) or really not related at all (near zero a). 
 
@@ -463,7 +1089,7 @@ adsNN.isnull().any()
 
 
 
-Now we have confirmed we have no null values we can move on. Next we will use the Linear Regression model from the Linear Model tools from Scikit Learn package. We want to solve for 8 quarters of data for each Instrument. So we iterate over each intrument then use the model.fit method to generate the best fit linear solution (OLS) and then store the 'coef_' parameter of the model as a new column in the adsNN dataframe called 'slope'. 
+Now we have confirmed we have no null values we can move on. Next we will use the Linear Regression model from the Linear Model tools from Scikit Learn package. We want to solve for 7 quarters of data for each Instrument. So we iterate over each intrument then use the model.fit method to generate the best fit linear solution (OLS) and then store the 'coef_' parameter of the model as a new column in the adsNN dataframe called 'slope'. 
 
 Whilst we are here we will also calculate a Spearman's Rank Correlation Coefficient using a routine from scipy package. The routine returns 2 values, the first is the Coefficient (Rho) and the second is the p-value. I just store these 2 elements in 2 seperate columns.
 
@@ -482,13 +1108,26 @@ for (group, adsNN_gp) in adsNN.groupby('Instrument'):
     adsNN.loc[adsNN.Instrument == adsNN_gp.iloc[0].Instrument, 'Rho'] = spearmans[0]
     adsNN.loc[adsNN.Instrument == adsNN_gp.iloc[0].Instrument, 'p'] = spearmans[1]
 
-adsNN.head(10)
+adsNN.head(15)
 ```
 
 
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -515,103 +1154,153 @@ adsNN.head(10)
   <tbody>
     <tr>
       <th>2017-09-30</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>57.0</td>
-      <td>1.405887</td>
-      <td>-0.042706</td>
-      <td>-0.035929</td>
-      <td>0.932691</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>5.0</td>
+      <td>2.295706</td>
+      <td>0.119443</td>
+      <td>0.684712</td>
+      <td>0.089666</td>
     </tr>
     <tr>
       <th>2017-06-30</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>74.0</td>
-      <td>9.496815</td>
-      <td>-0.042706</td>
-      <td>-0.035929</td>
-      <td>0.932691</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>36.0</td>
+      <td>2.411987</td>
+      <td>0.119443</td>
+      <td>0.684712</td>
+      <td>0.089666</td>
     </tr>
     <tr>
       <th>2017-03-31</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>65.0</td>
-      <td>7.838536</td>
-      <td>-0.042706</td>
-      <td>-0.035929</td>
-      <td>0.932691</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>14.0</td>
+      <td>7.890774</td>
+      <td>0.119443</td>
+      <td>0.684712</td>
+      <td>0.089666</td>
     </tr>
     <tr>
       <th>2016-12-31</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>65.0</td>
-      <td>1.981690</td>
-      <td>-0.042706</td>
-      <td>-0.035929</td>
-      <td>0.932691</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>17.0</td>
+      <td>10.217330</td>
+      <td>0.119443</td>
+      <td>0.684712</td>
+      <td>0.089666</td>
     </tr>
     <tr>
       <th>2016-09-30</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>58.0</td>
-      <td>1.254875</td>
-      <td>-0.042706</td>
-      <td>-0.035929</td>
-      <td>0.932691</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>5.0</td>
+      <td>0.339847</td>
+      <td>0.119443</td>
+      <td>0.684712</td>
+      <td>0.089666</td>
     </tr>
     <tr>
       <th>2016-06-30</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>54.0</td>
-      <td>5.718277</td>
-      <td>-0.042706</td>
-      <td>-0.035929</td>
-      <td>0.932691</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>13.0</td>
+      <td>1.787259</td>
+      <td>0.119443</td>
+      <td>0.684712</td>
+      <td>0.089666</td>
     </tr>
     <tr>
       <th>2016-03-31</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>46.0</td>
-      <td>11.420105</td>
-      <td>-0.042706</td>
-      <td>-0.035929</td>
-      <td>0.932691</td>
-    </tr>
-    <tr>
-      <th>2015-12-31</th>
-      <td>MMM.N</td>
-      <td>Industrial Conglomerates</td>
-      <td>37.0</td>
-      <td>6.948607</td>
-      <td>-0.042706</td>
-      <td>-0.035929</td>
-      <td>0.932691</td>
+      <td>ACCP.PA</td>
+      <td>Hotels &amp; Entertainment Services</td>
+      <td>9.0</td>
+      <td>-5.187512</td>
+      <td>0.119443</td>
+      <td>0.684712</td>
+      <td>0.089666</td>
     </tr>
     <tr>
       <th>2017-09-30</th>
-      <td>AXP.N</td>
-      <td>Banking Services</td>
-      <td>66.0</td>
-      <td>7.788457</td>
-      <td>0.580752</td>
-      <td>0.666667</td>
-      <td>0.070988</td>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>22.0</td>
+      <td>2.396977</td>
+      <td>-0.250236</td>
+      <td>-0.571429</td>
+      <td>0.180202</td>
     </tr>
     <tr>
       <th>2017-06-30</th>
-      <td>AXP.N</td>
-      <td>Banking Services</td>
-      <td>77.0</td>
-      <td>6.787863</td>
-      <td>0.580752</td>
-      <td>0.666667</td>
-      <td>0.070988</td>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>20.0</td>
+      <td>4.297597</td>
+      <td>-0.250236</td>
+      <td>-0.571429</td>
+      <td>0.180202</td>
+    </tr>
+    <tr>
+      <th>2017-03-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>17.0</td>
+      <td>3.664822</td>
+      <td>-0.250236</td>
+      <td>-0.571429</td>
+      <td>0.180202</td>
+    </tr>
+    <tr>
+      <th>2016-12-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>24.0</td>
+      <td>1.372456</td>
+      <td>-0.250236</td>
+      <td>-0.571429</td>
+      <td>0.180202</td>
+    </tr>
+    <tr>
+      <th>2016-09-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>10.0</td>
+      <td>10.686223</td>
+      <td>-0.250236</td>
+      <td>-0.571429</td>
+      <td>0.180202</td>
+    </tr>
+    <tr>
+      <th>2016-06-30</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>38.0</td>
+      <td>4.185135</td>
+      <td>-0.250236</td>
+      <td>-0.571429</td>
+      <td>0.180202</td>
+    </tr>
+    <tr>
+      <th>2016-03-31</th>
+      <td>AIRP.PA</td>
+      <td>Chemicals</td>
+      <td>26.0</td>
+      <td>-4.252091</td>
+      <td>-0.250236</td>
+      <td>-0.571429</td>
+      <td>0.180202</td>
+    </tr>
+    <tr>
+      <th>2017-09-30</th>
+      <td>AIR.PA</td>
+      <td>Aerospace &amp; Defense</td>
+      <td>25.0</td>
+      <td>3.220992</td>
+      <td>-0.234564</td>
+      <td>-0.607143</td>
+      <td>0.148231</td>
     </tr>
   </tbody>
 </table>
@@ -619,7 +1308,7 @@ adsNN.head(10)
 
 
 
-Voila - I have all the calculations I requested and I think I just want to average these by Instrument so I can get a summary view. (note averaging the slope, Rho and p values does not change them as they were calculated once for the 8 periods and just copied 8 times). 
+Voila - I have all the calculations I requested and I think I just want to average these by Instrument so I can get a summary view. (note averaging the slope, Rho and p values does not change them as they were calculated once for the 7 periods and just copied 7 times). 
 
 
 ```python
@@ -631,6 +1320,19 @@ Averages
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -652,244 +1354,324 @@ Averages
   </thead>
   <tbody>
     <tr>
-      <th>AAPL.OQ</th>
-      <td>73.875</td>
-      <td>5.195261</td>
-      <td>-0.415002</td>
-      <td>-0.238095</td>
-      <td>0.570156</td>
+      <th>ACCP.PA</th>
+      <td>14.142857</td>
+      <td>2.822199</td>
+      <td>0.119443</td>
+      <td>0.684712</td>
+      <td>0.089666</td>
     </tr>
     <tr>
-      <th>AXP.N</th>
-      <td>65.375</td>
-      <td>3.509887</td>
-      <td>0.580752</td>
-      <td>0.666667</td>
-      <td>0.070988</td>
+      <th>AIR.PA</th>
+      <td>33.571429</td>
+      <td>5.714654</td>
+      <td>-0.234564</td>
+      <td>-0.607143</td>
+      <td>0.148231</td>
     </tr>
     <tr>
-      <th>BA.N</th>
-      <td>80.000</td>
-      <td>9.847959</td>
-      <td>0.774764</td>
-      <td>0.706599</td>
-      <td>0.050063</td>
+      <th>AIRP.PA</th>
+      <td>22.428571</td>
+      <td>3.193017</td>
+      <td>-0.250236</td>
+      <td>-0.571429</td>
+      <td>0.180202</td>
     </tr>
     <tr>
-      <th>CAT.N</th>
-      <td>55.375</td>
-      <td>9.602497</td>
-      <td>0.074619</td>
-      <td>0.380952</td>
-      <td>0.351813</td>
+      <th>ATOS.PA</th>
+      <td>94.142857</td>
+      <td>8.784536</td>
+      <td>-0.743983</td>
+      <td>-0.054056</td>
+      <td>0.908365</td>
     </tr>
     <tr>
-      <th>CSCO.OQ</th>
-      <td>91.250</td>
-      <td>4.271595</td>
-      <td>0.101271</td>
-      <td>0.036147</td>
-      <td>0.932283</td>
+      <th>AXAF.PA</th>
+      <td>64.000000</td>
+      <td>4.571939</td>
+      <td>-0.196042</td>
+      <td>-0.126131</td>
+      <td>0.787572</td>
     </tr>
     <tr>
-      <th>CVX.N</th>
-      <td>61.000</td>
-      <td>6.544678</td>
-      <td>0.167824</td>
-      <td>0.299407</td>
-      <td>0.471261</td>
+      <th>BNPP.PA</th>
+      <td>60.142857</td>
+      <td>7.160401</td>
+      <td>-0.079672</td>
+      <td>-0.252262</td>
+      <td>0.585241</td>
     </tr>
     <tr>
-      <th>DIS.N</th>
-      <td>41.250</td>
-      <td>0.215785</td>
-      <td>0.175213</td>
-      <td>0.047619</td>
-      <td>0.910849</td>
+      <th>BOUY.PA</th>
+      <td>73.428571</td>
+      <td>4.506075</td>
+      <td>-0.323423</td>
+      <td>-0.500000</td>
+      <td>0.253170</td>
     </tr>
     <tr>
-      <th>DWDP.N</th>
-      <td>19.000</td>
-      <td>3.051503</td>
+      <th>CAGR.PA</th>
+      <td>55.285714</td>
+      <td>8.206785</td>
+      <td>-0.066242</td>
+      <td>0.142857</td>
+      <td>0.759945</td>
+    </tr>
+    <tr>
+      <th>CAPP.PA</th>
+      <td>59.142857</td>
+      <td>3.231260</td>
+      <td>-0.358011</td>
+      <td>-0.535714</td>
+      <td>0.215217</td>
+    </tr>
+    <tr>
+      <th>CARR.PA</th>
+      <td>26.285714</td>
+      <td>-2.853468</td>
+      <td>0.209579</td>
+      <td>-0.107143</td>
+      <td>0.819151</td>
+    </tr>
+    <tr>
+      <th>DANO.PA</th>
+      <td>29.428571</td>
+      <td>2.312771</td>
+      <td>0.070155</td>
+      <td>0.142857</td>
+      <td>0.759945</td>
+    </tr>
+    <tr>
+      <th>ENGIE.PA</th>
+      <td>46.428571</td>
+      <td>2.994981</td>
+      <td>-0.117695</td>
+      <td>-0.450469</td>
+      <td>0.310429</td>
+    </tr>
+    <tr>
+      <th>ESSI.PA</th>
+      <td>37.285714</td>
+      <td>1.446916</td>
+      <td>-0.205101</td>
+      <td>-0.392857</td>
+      <td>0.383317</td>
+    </tr>
+    <tr>
+      <th>EXHO.PA</th>
+      <td>55.428571</td>
+      <td>2.871624</td>
+      <td>-0.066887</td>
+      <td>-0.540562</td>
+      <td>0.210289</td>
+    </tr>
+    <tr>
+      <th>FTI.PA</th>
+      <td>15.666667</td>
+      <td>-4.249451</td>
+      <td>-0.995839</td>
+      <td>-1.000000</td>
       <td>0.000000</td>
-      <td>NaN</td>
-      <td>NaN</td>
     </tr>
     <tr>
-      <th>GE.N</th>
-      <td>74.625</td>
-      <td>0.738084</td>
-      <td>-0.185066</td>
-      <td>0.309524</td>
-      <td>0.455645</td>
+      <th>LEGD.PA</th>
+      <td>45.142857</td>
+      <td>4.603834</td>
+      <td>-0.017527</td>
+      <td>-0.035714</td>
+      <td>0.939408</td>
     </tr>
     <tr>
-      <th>GS.N</th>
-      <td>49.250</td>
-      <td>5.564424</td>
-      <td>0.619657</td>
-      <td>0.610789</td>
-      <td>0.107721</td>
+      <th>LHN.PA</th>
+      <td>35.857143</td>
+      <td>3.710595</td>
+      <td>-0.248977</td>
+      <td>-0.214286</td>
+      <td>0.644512</td>
     </tr>
     <tr>
-      <th>HD.N</th>
-      <td>81.125</td>
-      <td>5.141574</td>
-      <td>-0.559756</td>
-      <td>-0.595238</td>
-      <td>0.119530</td>
+      <th>LVMH.PA</th>
+      <td>70.571429</td>
+      <td>8.080266</td>
+      <td>-0.167705</td>
+      <td>-0.250000</td>
+      <td>0.588724</td>
     </tr>
     <tr>
-      <th>IBM.N</th>
-      <td>78.625</td>
-      <td>1.454870</td>
-      <td>0.000606</td>
-      <td>-0.289178</td>
-      <td>0.487261</td>
+      <th>MICP.PA</th>
+      <td>89.857143</td>
+      <td>5.207835</td>
+      <td>0.584094</td>
+      <td>0.630656</td>
+      <td>0.128888</td>
     </tr>
     <tr>
-      <th>INTC.OQ</th>
-      <td>85.375</td>
-      <td>4.088071</td>
-      <td>0.352581</td>
-      <td>0.395217</td>
-      <td>0.332517</td>
+      <th>MT.AS</th>
+      <td>70.857143</td>
+      <td>13.962780</td>
+      <td>0.107790</td>
+      <td>0.198206</td>
+      <td>0.670085</td>
     </tr>
     <tr>
-      <th>JNJ.N</th>
-      <td>86.625</td>
-      <td>4.975873</td>
-      <td>0.160626</td>
-      <td>0.059881</td>
-      <td>0.887991</td>
+      <th>ORAN.PA</th>
+      <td>53.142857</td>
+      <td>0.186049</td>
+      <td>-0.193575</td>
+      <td>-0.846881</td>
+      <td>0.016197</td>
     </tr>
     <tr>
-      <th>JPM.N</th>
-      <td>88.875</td>
-      <td>6.677507</td>
-      <td>0.511293</td>
-      <td>0.047619</td>
-      <td>0.910849</td>
+      <th>OREP.PA</th>
+      <td>43.000000</td>
+      <td>2.721421</td>
+      <td>0.055467</td>
+      <td>0.642857</td>
+      <td>0.119392</td>
     </tr>
     <tr>
-      <th>KO.N</th>
-      <td>60.250</td>
-      <td>2.287097</td>
-      <td>0.011978</td>
-      <td>-0.119048</td>
-      <td>0.778886</td>
+      <th>PERP.PA</th>
+      <td>33.285714</td>
+      <td>4.797600</td>
+      <td>-0.066685</td>
+      <td>-0.071429</td>
+      <td>0.879048</td>
     </tr>
     <tr>
-      <th>MCD.N</th>
-      <td>76.250</td>
-      <td>7.080045</td>
-      <td>0.596103</td>
-      <td>0.574861</td>
-      <td>0.136058</td>
+      <th>PEUP.PA</th>
+      <td>84.428571</td>
+      <td>3.700341</td>
+      <td>-0.261221</td>
+      <td>-0.214286</td>
+      <td>0.644512</td>
     </tr>
     <tr>
-      <th>MMM.N</th>
-      <td>57.000</td>
-      <td>5.758099</td>
-      <td>-0.042706</td>
-      <td>-0.035929</td>
-      <td>0.932691</td>
+      <th>PRTP.PA</th>
+      <td>62.428571</td>
+      <td>14.708734</td>
+      <td>-0.008738</td>
+      <td>-0.018019</td>
+      <td>0.969415</td>
     </tr>
     <tr>
-      <th>MRK.N</th>
-      <td>87.750</td>
-      <td>4.167913</td>
-      <td>0.764098</td>
-      <td>0.838338</td>
-      <td>0.009323</td>
+      <th>PUBP.PA</th>
+      <td>62.142857</td>
+      <td>-0.332859</td>
+      <td>0.155443</td>
+      <td>0.321429</td>
+      <td>0.482072</td>
     </tr>
     <tr>
-      <th>MSFT.OQ</th>
-      <td>90.500</td>
-      <td>7.836693</td>
-      <td>0.040697</td>
-      <td>0.059881</td>
-      <td>0.887991</td>
+      <th>RENA.PA</th>
+      <td>67.000000</td>
+      <td>0.840024</td>
+      <td>-0.286120</td>
+      <td>-0.054056</td>
+      <td>0.908365</td>
     </tr>
     <tr>
-      <th>NKE.N</th>
-      <td>29.625</td>
-      <td>-1.740508</td>
-      <td>0.213786</td>
-      <td>0.730552</td>
-      <td>0.039556</td>
+      <th>SAF.PA</th>
+      <td>57.571429</td>
+      <td>5.371726</td>
+      <td>-0.176439</td>
+      <td>-0.357143</td>
+      <td>0.431611</td>
     </tr>
     <tr>
-      <th>PFE.N</th>
-      <td>84.375</td>
-      <td>2.602840</td>
-      <td>0.288559</td>
-      <td>0.357143</td>
-      <td>0.385121</td>
+      <th>SASY.PA</th>
+      <td>71.285714</td>
+      <td>1.715126</td>
+      <td>-0.241940</td>
+      <td>-0.285714</td>
+      <td>0.534509</td>
     </tr>
     <tr>
-      <th>PG.N</th>
-      <td>68.000</td>
-      <td>3.837856</td>
-      <td>0.251476</td>
-      <td>0.035929</td>
-      <td>0.932691</td>
+      <th>SCHN.PA</th>
+      <td>53.142857</td>
+      <td>4.601030</td>
+      <td>-0.002400</td>
+      <td>0.214286</td>
+      <td>0.644512</td>
     </tr>
     <tr>
-      <th>TRV.N</th>
-      <td>77.250</td>
-      <td>3.225188</td>
-      <td>0.335607</td>
-      <td>0.706599</td>
-      <td>0.050063</td>
+      <th>SGEF.PA</th>
+      <td>70.285714</td>
+      <td>4.670457</td>
+      <td>-0.264057</td>
+      <td>-0.714286</td>
+      <td>0.071344</td>
     </tr>
     <tr>
-      <th>UNH.N</th>
-      <td>89.375</td>
-      <td>7.168842</td>
-      <td>0.444293</td>
-      <td>0.313276</td>
-      <td>0.449908</td>
+      <th>SGOB.PA</th>
+      <td>68.285714</td>
+      <td>3.861674</td>
+      <td>0.131461</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
     </tr>
     <tr>
-      <th>UTX.N</th>
-      <td>84.500</td>
-      <td>4.074656</td>
-      <td>-0.212942</td>
-      <td>-0.359288</td>
-      <td>0.382065</td>
+      <th>SOGN.PA</th>
+      <td>55.857143</td>
+      <td>7.180684</td>
+      <td>0.029665</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
     </tr>
     <tr>
-      <th>V.N</th>
-      <td>27.625</td>
-      <td>5.676034</td>
-      <td>-0.060229</td>
-      <td>-0.089392</td>
-      <td>0.833281</td>
+      <th>SOLB.BR</th>
+      <td>61.142857</td>
+      <td>4.775618</td>
+      <td>-0.236724</td>
+      <td>-0.250000</td>
+      <td>0.588724</td>
     </tr>
     <tr>
-      <th>VZ.N</th>
-      <td>75.250</td>
-      <td>3.136394</td>
-      <td>0.414491</td>
-      <td>0.714286</td>
-      <td>0.046528</td>
+      <th>STM.PA</th>
+      <td>73.285714</td>
+      <td>22.908329</td>
+      <td>-0.388359</td>
+      <td>-0.535714</td>
+      <td>0.215217</td>
     </tr>
     <tr>
-      <th>WMT.N</th>
-      <td>85.375</td>
-      <td>3.266748</td>
-      <td>-0.078561</td>
-      <td>-0.047619</td>
-      <td>0.910849</td>
+      <th>TOTF.PA</th>
+      <td>51.857143</td>
+      <td>3.422500</td>
+      <td>-0.031798</td>
+      <td>-0.185312</td>
+      <td>0.690778</td>
     </tr>
     <tr>
-      <th>XOM.N</th>
-      <td>35.625</td>
-      <td>1.958404</td>
-      <td>0.082098</td>
-      <td>0.011976</td>
-      <td>0.977547</td>
+      <th>UNBP.AS</th>
+      <td>32.000000</td>
+      <td>-0.891114</td>
+      <td>-0.095466</td>
+      <td>-0.071429</td>
+      <td>0.879048</td>
+    </tr>
+    <tr>
+      <th>VIE.PA</th>
+      <td>43.428571</td>
+      <td>1.959539</td>
+      <td>-0.331911</td>
+      <td>-0.828862</td>
+      <td>0.021174</td>
+    </tr>
+    <tr>
+      <th>VIV.PA</th>
+      <td>28.285714</td>
+      <td>4.241614</td>
+      <td>-0.079870</td>
+      <td>-0.250000</td>
+      <td>0.588724</td>
+    </tr>
+    <tr>
+      <th>VLOF.PA</th>
+      <td>88.142857</td>
+      <td>5.843416</td>
+      <td>0.022018</td>
+      <td>-0.306319</td>
+      <td>0.504027</td>
     </tr>
   </tbody>
 </table>
@@ -899,7 +1681,7 @@ Averages
 
 ### Conclusion
 
-So now we have a summarised view of our study - can we answer the question posited earlier? 'Are CAM scores RELATED to performance?' Let us have a look at average CAM score versus average 3 month total return (over 8 quarters). This seems to indicate that there is a positive relation between the two variables.
+So now we have a summarised view of our study - can we answer the question posited earlier? 'Are CAM scores RELATED to performance?' Let us have a look at average CAM score versus average 3 month total return (over 7 quarters). This seems to indicate that there is a positive relation between the two variables.
 
 
 ```python
@@ -907,33 +1689,18 @@ ax = Averages.plot(x='Combined Alpha Model Country Rank', y='3 Month Total Retur
 ```
 
 
-![png](output_25_0.png)
+![png](output_32_0.png)
 
 
-We can check this further by running the same Spearman's Rank Correlation Coefficient test against these summary results. Here we can see Rho of 31.26 which is positive and with p of 0.092 the null hypothesis can be safetly rejected. 
+We can check this further by running the same Spearman's Rank Correlation Coefficient test against these summary results. Here we can see Rho of 50 which is both large & positive and with p of 0.101 the null hypothesis can be safetly rejected. 
 
 
 ```python
 spearmans = scipy.stats.spearmanr(Averages['Combined Alpha Model Country Rank'],Averages['3 Month Total Return'])
 Rho = spearmans[0]
 p = spearmans[1]
-print Rho,p
+print(Rho,p)
 ```
 
-    0.312604296072 0.0925882700203
+    0.5003048928999382 0.001010764442996582
     
-
-Looking at the distribution of Rho and p we can see that there are a range of relations between CAM score and performance from negative to positive with some showing no relation at all. There appear to be groups of companies displaying differing characteristics, maybe some of these could be exploitable - though you would need to conduct more research to confirm this.
-
-This was not meant to be a conclusive study, more a taster of what is possible using our data in the python ecosystem. This analysis was done on one Equity index the Dow - but you could easily try this for any equity index - maybe some markets are more responsive than others, maybe looking at a longer term return say 12 months might be interesting. There is plenty of scope. I hope to have shown you that it can be straightforward to produce relatively complex studies from a small amount of code. 
-
-
-```python
-bx = Averages.plot(x='Rho', y='p', kind='scatter')
-```
-
-
-![png](output_29_0.png)
-
-
-Author: jason.ramchandani@tr.com
